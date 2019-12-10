@@ -8,8 +8,14 @@ connectMongo();
 
 //MIDDLEWARES
 app.use(express.urlencoded({ extended: true }));
-app.engine("handlebars", exphbs({ defaultLayout: "main" }));
-app.set("view engine", "handlebars");
+
+//VIEW ENGINE
+const hbsHelpers = require("./views/hbs-helpers");
+app.engine(
+  ".hbs",
+  exphbs({ defaultLayout: "main", extname: ".hbs", helpers: hbsHelpers })
+);
+app.set("view engine", "hbs");
 
 //STATIC FILES
 app.use("/public", express.static(path.join(__dirname, "public")));
