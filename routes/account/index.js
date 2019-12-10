@@ -1,11 +1,15 @@
 const express = require("express");
 const router = express.Router();
 
-//VALIDATORS
+// VALIDATORS
+
 const validateAccount = require("./validators/validate-account");
 
-//HANDLERS
+// HANDLERS
+
 const newAccount = require("./handlers/new-account");
+
+// ROUTES
 
 router.get("/new", (_req, res) =>
   res.render("pages/new-account", { title: "New Account" })

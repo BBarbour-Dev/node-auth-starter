@@ -2,31 +2,38 @@ const path = require("path");
 const express = require("express");
 const app = express();
 const exphbs = require("express-handlebars");
-const connectMongo = require("./config/connectMongo");
+const connectMongo = require("./config/connect-mongo");
+const hbsHelpers = require("./views/hbs-helpers");
+const accountRouter = require("./routes/account");
+
+// DATABASE CONNECTION
 
 connectMongo();
 
-//MIDDLEWARES
+// MIDDLEWARES
+
 app.use(express.urlencoded({ extended: true }));
 
-//VIEW ENGINE
-const hbsHelpers = require("./views/hbs-helpers");
+// VIEW ENGINE
+
 app.engine(
   ".hbs",
   exphbs({ defaultLayout: "main", extname: ".hbs", helpers: hbsHelpers })
 );
 app.set("view engine", "hbs");
 
-//STATIC FILES
+// STATIC FILES
+
 app.use("/public", express.static(path.join(__dirname, "public")));
 
-//ROUTES
-const accountRouter = require("./routes/account");
+// ROUTES
 
 app.get("/", (_req, res) => {
   res.render("pages/index", { title: "Home" });
 });
 app.use("/account", accountRouter);
+
+// LISTENER
 
 const port = process.env.PORT || 5000;
 app.listen(port, () => console.log(`Listening on port ${port}...`));
