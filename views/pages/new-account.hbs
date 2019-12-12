@@ -1,27 +1,47 @@
-<h1>{{title}}</h1>
-{{#if errors}}
-{{#each errors}}
-<p>{{msg}}</p>
-{{/each}}
-{{/if}}
+<h1>
+  {{title}}
+</h1>
+{{>errors}}
 <form action="new" method="POST">
-    <div>
-        <label for="username">Username</label>
-        <input type="text" name="username" id="username" required value="{{inputValue data.username}}" />
-    </div>
-    <div>
-        <label for="email">Email</label>
-        <input type="email" name="email" id="email" value="{{inputValue data.email}}" required />
-    </div>
-    <div>
-        <label for="password">Password</label>
-        <input type="password" name="password" id="password" required />
-    </div>
-    <div>
-        <label for="passwordTwo">Confirm Password</label>
-        <input type="password" name="passwordTwo" id="passwordTwo" required />
-    </div>
-    <div>
-        <button type="submit">Submit</button>
-    </div>
+  <div>
+    <label for="username">
+      Username
+    </label>
+    <input
+      type="text"
+      name="username"
+      id="username"
+      required
+      value="{{data.username}}"
+    />
+  </div>
+  <div>
+    <label for="email">
+      Email
+    </label>
+    <input
+      type="email"
+      name="email"
+      id="email"
+      value="{{data.email}}"
+      required
+    />
+  </div>
+  <div>
+    <label for="password">
+      Password
+    </label>
+    <input type="password" name="password" id="password" required />
+  </div>
+  <div>
+    <label for="passwordTwo">
+      Confirm Password
+    </label>
+    <input type="password" name="passwordTwo" id="passwordTwo" required />
+  </div>
+  <div>
+    <button type="submit">
+      Submit
+    </button>
+  </div>
 </form>

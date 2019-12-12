@@ -42,5 +42,9 @@ module.exports = async function(req, res, title) {
     });
   }
 
+  req.flash(
+    "flashSuccess",
+    "Account registered. Please login for the first time."
+  );
   return res.redirect("/account/login");
 };

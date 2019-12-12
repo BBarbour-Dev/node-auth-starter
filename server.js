@@ -1,25 +1,41 @@
-// PACKAGE & MODULE IMPORTS
+// MODULE IMPORTS
+
 require("dotenv").config();
 const path = require("path");
 const express = require("express");
-const app = express();
 const exphbs = require("express-handlebars");
 const connectMongo = require("./config/connect-mongo");
 const hbsHelpers = require("./views/hbs-helpers");
+const flash = require("connect-flash");
+const session = require("express-session");
 
-// GLOBAL VARIABLES
+// SETUP
 
+const app = express();
 const port = process.env.PORT || 5000;
 
 // DATABASE CONNECTION
 
-const db = connectMongo();
+connectMongo();
 
-// MIDDLEWARES
+// MIDDLEWARE
 
 app.use(express.urlencoded({ extended: true }));
+app.use(
+  session({
+    secret: "secret",
+    resave: true,
+    saveUninitialized: true
+  })
+);
+app.use(flash());
+app.use((req, res, next) => {
+  res.locals.flashSuccess = req.flash("flashSuccess");
+  res.locals.flashError = req.flash("flashError");
+  next();
+});
 
-// VIEW ENGINE
+// TEMPLATE/VIEW ENGINE
 
 app.engine(
   ".hbs",
@@ -27,7 +43,7 @@ app.engine(
 );
 app.set("view engine", "hbs");
 
-// STATIC FILES
+// SERVE STATIC FILES
 
 app.use("/public", express.static(path.join(__dirname, "public")));
 
@@ -35,7 +51,7 @@ app.use("/public", express.static(path.join(__dirname, "public")));
 
 const accountRouter = require("./routes/account");
 
-// ROUTES
+// APP ROUTES
 
 app.get("/", (_req, res) => {
   res.render("pages/index", { title: "Home" });
