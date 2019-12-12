@@ -1,9 +1,9 @@
-<h1>New Account</h1>
-{{#if errors }}
-{{#each errors }}
-<p>{{ this }}</p>
-{{/each }}
-{{/if }}
+<h1>{{title}}</h1>
+{{#if errors}}
+{{#each errors}}
+<p>{{msg}}</p>
+{{/each}}
+{{/if}}
 <form action="new" method="POST">
     <div>
         <label for="username">Username</label>
