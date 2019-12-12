@@ -8,7 +8,7 @@
   },
   "keywords": [],
   "author": "Brian Barbour",
-  "license": "MIST",
+  "license": "MIT",
   "dependencies": {
     "bcryptjs": "^2.4.3",
     "dotenv": "^8.2.0",
