@@ -10,6 +10,12 @@ const newAccount = require("./handlers/new");
 
 const validateAccount = require("./validators/validate-account");
 
+// VIEW ACCOUNT
+
+router.get("/", (_req, res) =>
+  res.render("pages/account", { title: "Account" })
+);
+
 // NEW ACCOUNT
 
 router.get("/new", (_req, res) =>
@@ -25,9 +31,8 @@ router.get("/login", (_req, res) =>
   res.render("pages/account-login", { title: "Login" })
 );
 router.post("/login", (req, res, next) => {
-  console.log(next);
   passport.authenticate("local", {
-    successRedirect: "/",
+    successRedirect: "/account",
     failureRedirect: "/account/login",
     failureFlash: "Invalid username or password."
   })(req, res, next);

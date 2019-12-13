@@ -26,6 +26,9 @@ module.exports = function(passport) {
 
   passport.deserializeUser(async (id, done) => {
     const account = await Account.findById(id);
-    done("Server error.", account);
+    if (!account) {
+      done("Server error. Please try again.", account);
+    }
+    done(null, account);
   });
 };

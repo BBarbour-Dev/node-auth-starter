@@ -38,6 +38,7 @@ app.use((req, res, next) => {
   res.locals.error = req.flash("error");
   res.locals.errors = req.flash("errors");
   res.locals.success = req.flash("success");
+  res.locals.user = req.user || null;
   next();
 });
 
