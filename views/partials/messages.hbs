@@ -1,0 +1,19 @@
+<div>
+  {{#if error}}
+    <p>
+      {{error}}
+    </p>
+  {{/if}}
+  {{#if success}}
+    <p>
+      {{success}}
+    </p>
+  {{/if}}
+  {{#if errors}}
+    {{#each errors}}
+      <p>
+        {{msg}}
+      </p>
+    {{/each}}
+  {{/if}}
+</div>

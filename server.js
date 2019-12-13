@@ -8,11 +8,14 @@ const connectMongo = require("./config/connect-mongo");
 const hbsHelpers = require("./views/hbs-helpers");
 const flash = require("connect-flash");
 const session = require("express-session");
+const passport = require("passport");
 
 // SETUP
 
 const app = express();
 const port = process.env.PORT || 5000;
+const passportConfig = require("./config/passport");
+passportConfig(passport);
 
 // DATABASE CONNECTION
 
@@ -23,15 +26,18 @@ connectMongo();
 app.use(express.urlencoded({ extended: true }));
 app.use(
   session({
-    secret: "secret",
+    secret: process.env.SESSION_SECRET,
     resave: true,
     saveUninitialized: true
   })
 );
+app.use(passport.initialize());
+app.use(passport.session());
 app.use(flash());
 app.use((req, res, next) => {
-  res.locals.flashSuccess = req.flash("flashSuccess");
-  res.locals.flashError = req.flash("flashError");
+  res.locals.error = req.flash("error");
+  res.locals.errors = req.flash("errors");
+  res.locals.success = req.flash("success");
   next();
 });
 

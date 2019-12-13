@@ -8,7 +8,7 @@ module.exports = async function(req, res, title) {
   const { username, email, password } = req.body;
 
   if (errors.length > 0) {
-    return res.render("pages/new-account", {
+    return res.render("pages/account-new", {
       ...title,
       errors,
       data: { username, email }
@@ -18,9 +18,9 @@ module.exports = async function(req, res, title) {
   const currentAccount = await Account.findOne({ username });
 
   if (currentAccount) {
-    return res.render("pages/new-account", {
+    return res.render("pages/account-new", {
       ...title,
-      errors: [{ msg: "Username is taken, please try a different one." }],
+      error: "Username is taken, please choose a different one.",
       data: { username, email }
     });
   }
@@ -35,16 +35,13 @@ module.exports = async function(req, res, title) {
   }).save();
 
   if (!newAccount) {
-    return res.render("pages/new-account", {
+    return res.render("pages/account-new", {
       ...title,
-      errors: [{ msg: "Server error, please try again." }],
+      error: "Server error, please try again.",
       data: { username, email }
     });
   }
 
-  req.flash(
-    "flashSuccess",
-    "Account registered. Please login for the first time."
-  );
+  req.flash("success", "Account registered. Please login for the first time.");
   return res.redirect("/account/login");
 };
