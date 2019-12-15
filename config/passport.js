@@ -8,14 +8,22 @@ module.exports = function(passport) {
   passport.use(
     new LocalStrategy(async (username, password, done) => {
       const account = await Account.findOne({ username });
+
       if (!account) {
         return done(null, false);
       }
 
       const passwordMatch = await bcrypt.compare(password, account.password);
-      if (!passwordMatch) {
+      const tempPasswordMatch = password === account.tempPassword;
+
+      if (passwordMatch && !tempPasswordMatch) {
+        await account.updateOne({ tempPassword: null });
+      }
+
+      if (!passwordMatch && !tempPasswordMatch) {
         return done(null, false);
       }
+
       return done(null, account);
     })
   );

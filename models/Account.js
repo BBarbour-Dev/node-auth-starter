@@ -14,6 +14,9 @@ const AccountSchema = new mongoose.Schema(
     email: {
       type: String,
       required: true
+    },
+    tempPassword: {
+      type: String
     }
   },
   { timestamps: true }

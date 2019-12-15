@@ -56,13 +56,12 @@ app.use("/public", express.static(path.join(__dirname, "public")));
 
 // ROUTERS
 
+const homeRouter = require("./routes/home");
 const accountRouter = require("./routes/account");
 
 // APP ROUTES
 
-app.get("/", (_req, res) => {
-  res.render("pages/index", { title: "Home" });
-});
+app.use("/", homeRouter);
 app.use("/account", accountRouter);
 
 // LISTENER
