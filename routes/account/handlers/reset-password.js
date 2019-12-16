@@ -6,7 +6,7 @@ module.exports = async function(req, res, title) {
   const { errors } = validationResult(req);
 
   if (errors.length > 0) {
-    return res.render("pages/account-reset", { ...title, errors });
+    return res.render("pages/account-reset-password", { ...title, errors });
   }
 
   const account = await Account.findOne({ _id: req.user._id });
@@ -14,9 +14,9 @@ module.exports = async function(req, res, title) {
   const { tempPassword, password } = req.body;
 
   if (tempPassword !== account.tempPassword) {
-    return res.render("pages/account-reset", {
+    return res.render("pages/account-reset-password", {
       ...title,
-      error: "Temp password not valid."
+      error: "Invalid temporary password."
     });
   }
 

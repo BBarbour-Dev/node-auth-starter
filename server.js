@@ -1,21 +1,21 @@
 // MODULE IMPORTS
 
-require('dotenv').config();
-const path = require('path');
-const express = require('express');
-const exphbs = require('express-handlebars');
-const connectMongo = require('./config/connect-mongo');
-const hbsHelpers = require('./views/hbs-helpers');
-const flash = require('connect-flash');
-const session = require('express-session');
-const passport = require('passport');
+require("dotenv").config();
+const path = require("path");
+const express = require("express");
+const exphbs = require("express-handlebars");
+const connectMongo = require("./config/connect-mongo");
+const hbsHelpers = require("./views/hbs-helpers");
+const flash = require("connect-flash");
+const session = require("express-session");
+const passport = require("passport");
 
 // SETUP
 
 const app = express();
 const port = process.env.PORT || 5000;
-const passportConfig = require('./config/passport');
-const { sessionSecret } = require('./config/env-vars');
+const passportConfig = require("./config/passport");
+const { sessionSecret } = require("./config/env-vars");
 passportConfig(passport);
 
 // DATABASE CONNECTION
@@ -27,7 +27,7 @@ connectMongo();
 app.use(express.urlencoded({ extended: true }));
 app.use(
   session({
-    secret: process.env.SESSION_SECRET,
+    secret: sessionSecret,
     resave: true,
     saveUninitialized: true
   })
@@ -36,9 +36,9 @@ app.use(passport.initialize());
 app.use(passport.session());
 app.use(flash());
 app.use((req, res, next) => {
-  res.locals.error = req.flash('error');
-  res.locals.errors = req.flash('errors');
-  res.locals.success = req.flash('success');
+  res.locals.error = req.flash("error");
+  res.locals.errors = req.flash("errors");
+  res.locals.success = req.flash("success");
   res.locals.user = req.user || null;
   next();
 });
@@ -46,24 +46,24 @@ app.use((req, res, next) => {
 // TEMPLATE/VIEW ENGINE
 
 app.engine(
-  '.hbs',
-  exphbs({ defaultLayout: 'main', extname: '.hbs', helpers: hbsHelpers })
+  ".hbs",
+  exphbs({ defaultLayout: "main", extname: ".hbs", helpers: hbsHelpers })
 );
-app.set('view engine', 'hbs');
+app.set("view engine", "hbs");
 
 // SERVE STATIC FILES
 
-app.use('/public', express.static(path.join(__dirname, 'public')));
+app.use("/public", express.static(path.join(__dirname, "public")));
 
 // ROUTERS
 
-const homeRouter = require('./routes/home');
-const accountRouter = require('./routes/account');
+const homeRouter = require("./routes/home");
+const accountRouter = require("./routes/account");
 
 // APP ROUTES
 
-app.use('/', homeRouter);
-app.use('/account', accountRouter);
+app.use("/", homeRouter);
+app.use("/account", accountRouter);
 
 // LISTENER
 

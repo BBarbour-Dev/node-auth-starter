@@ -1,9 +1,42 @@
 {{#if user}}
-  <p>
-    {{user.username}}
-    {{user.email}}
-  </p>
+<h1>{{title}}</h1>
+<h2>Make changes to your account settings.</h2>
+{{>messages}}
+<form action="change-username" method="POST">
+  <div>
+    <label for="password">
+      Current Password
+    </label>
+    <input type="password" name="password" id="password" required />
+  </div>
+  <div>
+    <label for="newUsername">
+      New Username
+    </label>
+    <input type="text" name="newUsername" id="newUsername" />
+  </div>
+  <div>
+    <label for="newEmail">
+      New Email
+    </label>
+    <input type="email" name="newEmail" id="newEmail" />
+  </div>
+  <div>
+    <label for="newPassword">
+      New Password
+    </label>
+    <input type="password" name="newPassword" id="newPassword" />
+  </div>
+  <div>
+    <label for="newPasswordTwo">
+      Confirm New Password
+    </label>
+    <input type="password" name="newPasswordTwo" id="newPasswordTwo" />
+  </div>
+  <div>
+    <button type="submit">
+      Submit
+    </button>
+  </div>
+</form>
 {{/if}}
-<a href="/account/logout">
-  Logout
-</a>

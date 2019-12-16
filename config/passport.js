@@ -7,17 +7,31 @@ const LocalStrategy = passportLocal.Strategy;
 module.exports = function(passport) {
   passport.use(
     new LocalStrategy(async (username, password, done) => {
-      const account = await Account.findOne({ username });
+      let account = await Account.findOne({ username });
 
       if (!account) {
         return done(null, false);
+      }
+
+      const today = new Date();
+      const expirationDate = new Date(account.tempPasswordExpires);
+
+      if (today > expirationDate) {
+        await account.updateOne({
+          tempPassword: null,
+          tempPasswordExpires: null
+        });
+        account = await Account.findOne({ username });
       }
 
       const passwordMatch = await bcrypt.compare(password, account.password);
       const tempPasswordMatch = password === account.tempPassword;
 
       if (passwordMatch && !tempPasswordMatch) {
-        await account.updateOne({ tempPassword: null });
+        await account.updateOne({
+          tempPassword: null,
+          tempPasswordExpires: null
+        });
       }
 
       if (!passwordMatch && !tempPasswordMatch) {
