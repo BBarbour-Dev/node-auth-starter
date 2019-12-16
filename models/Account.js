@@ -1,4 +1,4 @@
-const mongoose = require("mongoose");
+const mongoose = require('mongoose');
 
 const AccountSchema = new mongoose.Schema(
   {
@@ -17,11 +17,14 @@ const AccountSchema = new mongoose.Schema(
     },
     tempPassword: {
       type: String
+    },
+    tempPasswordExpires: {
+      type: Date
     }
   },
   { timestamps: true }
 );
 
-const Account = mongoose.model("Account", AccountSchema);
+const Account = mongoose.model('Account', AccountSchema);
 
 module.exports = Account;

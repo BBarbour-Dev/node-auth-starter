@@ -1,11 +1,13 @@
-const express = require("express");
+const express = require('express');
 const router = express.Router();
-const { checkIsAuth, checkIsNotAuth } = require("../../middleware/auth");
+const { checkIsAuth, checkIsNotAuth } = require('../../middleware/auth');
 
-router.get("/", checkIsNotAuth, (_req, res) => res.render("pages/landing"));
+router.get('/', checkIsNotAuth, (_req, res) => {
+  return res.render('pages/landing');
+});
 
-router.get("/dashboard", checkIsAuth, (_req, res) =>
-  res.render("pages/dashboard")
-);
+router.get('/dashboard', checkIsAuth, (_req, res) => {
+  return res.render('pages/dashboard');
+});
 
 module.exports = router;
