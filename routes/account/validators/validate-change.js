@@ -3,7 +3,7 @@ const Account = require("../../../models/Account");
 
 module.exports = [
   check("password").custom(async (password, { req }) => {
-    const account = Account.findById(req.user._id);
+    const account = await Account.findById(req.user._id);
     const passwordMatch = await bcrypt.compare(password, account.password);
     if (!passwordMatch) {
       throw new Error("Invalid password.");
