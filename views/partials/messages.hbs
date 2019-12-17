@@ -1,19 +1,19 @@
 <div>
   {{#if error}}
-    <p>
-      {{error}}
-    </p>
+  <p style="color:red">
+    {{error}}
+  </p>
   {{/if}}
   {{#if success}}
-    <p>
-      {{success}}
-    </p>
+  <p style="color:green;">
+    {{success}}
+  </p>
   {{/if}}
   {{#if errors}}
-    {{#each errors}}
-      <p>
-        {{msg}}
-      </p>
-    {{/each}}
+  {{#each errors}}
+  <p style="color:red">
+    {{msg}}
+  </p>
+  {{/each}}
   {{/if}}
 </div>

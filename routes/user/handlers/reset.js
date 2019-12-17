@@ -1,18 +1,18 @@
-const { validationResult } = require("express-validator");
-const Account = require("../../../models/Account");
-const generator = require("generate-password");
-const testEmail = require("../../../config/test-email");
+const { validationResult } = require('express-validator');
+const User = require('../../../models/User');
+const generator = require('generate-password');
+const testEmail = require('../../../config/test-email');
 
 module.exports = async function(req, res, title) {
   const { errors } = validationResult(req);
 
   const { username, email } = req.body;
-  const user = await Account.findOne({ username, email });
+  const user = await User.findOne({ username, email });
 
   if (errors.length > 0 || !user) {
-    return res.render("pages/account-reset", {
+    return res.render('pages/reset', {
       ...title,
-      error: "Invalid username or email address."
+      error: 'No user account matching provided username and email address.'
     });
   }
 
@@ -28,9 +28,9 @@ module.exports = async function(req, res, title) {
 
   const transporter = await testEmail();
   const message = {
-    from: "test@test.com",
+    from: 'test@test.com',
     to: email,
-    subject: "Your password has been reset.",
+    subject: 'Your password has been reset.',
     html: `<p>A temporary password has been generated for your account and will last 24 hours. Please login with the following credentials to create a new password.</p> Username: ${username}<br/> Temp Password: ${tempPassword}`
   };
 
@@ -38,15 +38,15 @@ module.exports = async function(req, res, title) {
 
   const sent = await transporter.sendMail(message);
   if (!sent) {
-    return res.render("pages/account-reset", {
+    return res.render('pages/reset', {
       ...title,
-      error: "Server error, please try again."
+      error: 'Server error, please try again.'
     });
   }
 
   req.flash(
-    "success",
-    "An email has been sent with your new password. Please login with it to reset."
+    'success',
+    'An email has been sent with your new password. Please login with it to reset.'
   );
-  return res.redirect("/account/login");
+  return res.redirect('/user/login');
 };

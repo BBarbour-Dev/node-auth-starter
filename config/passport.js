@@ -1,34 +1,34 @@
-const passportLocal = require("passport-local");
-const Account = require("../models/Account");
-const bcrypt = require("bcryptjs");
+const passportLocal = require('passport-local');
+const User = require('../models/User');
+const bcrypt = require('bcryptjs');
 
 const LocalStrategy = passportLocal.Strategy;
 
 module.exports = function(passport) {
   passport.use(
     new LocalStrategy(async (username, password, done) => {
-      let account = await Account.findOne({ username });
+      let user = await User.findOne({ username });
 
-      if (!account) {
+      if (!user) {
         return done(null, false);
       }
 
       const today = new Date();
-      const expirationDate = new Date(account.tempPasswordExpires);
+      const expirationDate = new Date(user.tempPasswordExpires);
 
       if (today > expirationDate) {
-        await account.updateOne({
+        await user.updateOne({
           tempPassword: null,
           tempPasswordExpires: null
         });
-        account = await Account.findOne({ username });
+        user = await User.findOne({ username });
       }
 
-      const passwordMatch = await bcrypt.compare(password, account.password);
-      const tempPasswordMatch = password === account.tempPassword;
+      const passwordMatch = await bcrypt.compare(password, user.password);
+      const tempPasswordMatch = password === user.tempPassword;
 
       if (passwordMatch && !tempPasswordMatch) {
-        await account.updateOne({
+        await user.updateOne({
           tempPassword: null,
           tempPasswordExpires: null
         });
@@ -38,19 +38,19 @@ module.exports = function(passport) {
         return done(null, false);
       }
 
-      return done(null, account);
+      return done(null, user);
     })
   );
 
-  passport.serializeUser((account, done) => {
-    done(null, account._id);
+  passport.serializeUser((user, done) => {
+    done(null, user._id);
   });
 
   passport.deserializeUser(async (id, done) => {
-    const account = await Account.findById(id);
-    if (!account) {
-      done("Server error. Please try again.", account);
+    const user = await User.findById(id);
+    if (!user) {
+      done('Server error. Please try again.', user);
     }
-    done(null, account);
+    done(null, user);
   });
 };

@@ -2,16 +2,22 @@
   {{title}}
 </h1>
 {{>messages}}
-<form action="reset-password" method="POST">
+<form action="register" method="POST">
   <div>
-    <label for="tempPassword">
-      Temporary Password
+    <label for="username">
+      Username
     </label>
-    <input type="password" name="tempPassword" id="tempPassword" required />
+    <input type="text" name="username" id="username" required value="{{data.username}}" />
+  </div>
+  <div>
+    <label for="email">
+      Email
+    </label>
+    <input type="email" name="email" id="email" value="{{data.email}}" required />
   </div>
   <div>
     <label for="password">
-      New Password
+      Password
     </label>
     <input type="password" name="password" id="password" required />
   </div>
