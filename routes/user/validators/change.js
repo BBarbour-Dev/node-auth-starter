@@ -22,6 +22,7 @@ module.exports = [
   check('newPassword')
     .optional()
     .isLength({ min: 6 })
+    .bail()
     .custom(async (newPassword, { req }) => {
       const user = await User.findById(req.user._id);
       const passwordMatch = await bcrypt.compare(newPassword, user.password);
