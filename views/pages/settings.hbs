@@ -1,26 +1,43 @@
 {{#if user}}
 <h1>{{title}}</h1>
-<h2>Make changes to your user account settings.</h2>
+<h2>Make changes to your user account.</h2>
 {{>messages}}
-<form action="change" method="POST">
+<form>
   <div>
     <label for="password">
       Current Password
     </label>
-    <input type="password" name="password" id="password" required />
+    <input type="password" id="current-password" />
   </div>
+</form>
+<hr>
+<form action="change-username" method="POST">
+  <input type="password" name="password" id="authNewUsername" style="display: none;" />
   <div>
     <label for="newUsername">
       New Username
     </label>
-    <input type="text" name="newUsername" id="newUsername" />
+    <input type="text" name="newUsername" id="newUsername" value="{{data.newUsername}}" required />
+    <button type="submit">
+      Change
+    </button>
   </div>
+</form>
+<form action="change-email" method="POST">
+  <input type="password" name="password" id="authNewEmail" style="display: none;" />
   <div>
     <label for="newEmail">
       New Email
     </label>
-    <input type="email" name="newEmail" id="newEmail" />
+    <input type="email" name="newEmail" id="newEmail" value="{{data.newEmail}}" required />
+    <button type="submit">
+      Change
+    </button>
   </div>
+</form>
+<hr>
+<form action="change-password" method="POST">
+  <input type="password" name="password" id="authNewPassword" style="display: none;" />
   <div>
     <label for="newPassword">
       New Password
@@ -35,7 +52,7 @@
   </div>
   <div>
     <button type="submit">
-      Submit
+      Change
     </button>
   </div>
 </form>

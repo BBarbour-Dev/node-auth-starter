@@ -6,35 +6,26 @@ module.exports = async function(req, res, title) {
   const { errors } = validationResult(req);
 
   if (errors.length > 0) {
-    return res.render("pages/new-password", { ...title, errors });
+    return res.render("pages/settings", { ...title, errors });
   }
 
   const user = await User.findById(req.user._id);
 
-  const { tempPassword, password } = req.body;
+  const { newPassword } = req.body;
 
-  if (tempPassword !== user.tempPassword) {
-    return res.render("pages/new-password", {
-      ...title,
-      error: "Invalid temporary password."
-    });
-  }
-
-  const same = await checkPassword(password, user.password);
+  const same = await checkPassword(newPassword, user.password);
 
   if (same) {
-    return res.render("pages/new-password", {
+    return res.render("pages/settings", {
       ...title,
       error: "New password matches old password."
     });
   }
 
-  const hash = await hashPassword(password);
+  const hash = await hashPassword(newPassword);
 
   await user.updateOne({
-    password: hash,
-    tempPassword: null,
-    tempPasswordExpires: null
+    password: hash
   });
 
   req.logout();

@@ -1,6 +1,6 @@
-const passportLocal = require('passport-local');
-const User = require('../models/User');
-const bcrypt = require('bcryptjs');
+const passportLocal = require("passport-local");
+const User = require("../models/User");
+const { checkPassword } = require("../helpers/password");
 
 const LocalStrategy = passportLocal.Strategy;
 
@@ -24,7 +24,7 @@ module.exports = function(passport) {
         user = await User.findOne({ username });
       }
 
-      const passwordMatch = await bcrypt.compare(password, user.password);
+      const passwordMatch = await checkPassword(password, user.password);
       const tempPasswordMatch = password === user.tempPassword;
 
       if (passwordMatch && !tempPasswordMatch) {
@@ -49,7 +49,7 @@ module.exports = function(passport) {
   passport.deserializeUser(async (id, done) => {
     const user = await User.findById(id);
     if (!user) {
-      done('Server error. Please try again.', user);
+      done("Server error. Please try again.", user);
     }
     done(null, user);
   });

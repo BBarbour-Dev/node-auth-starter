@@ -6,7 +6,7 @@ module.exports = [
     .withMessage("Username must be at least 3 characters in length."),
   check("email")
     .isEmail()
-    .withMessage("Email must be a valid address."),
+    .withMessage("Please enter a valid email address."),
   check("password")
     .isLength({ min: 6 })
     .withMessage("Password must be at least 6 characters in length."),

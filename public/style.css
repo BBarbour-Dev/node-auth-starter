@@ -18,36 +18,6 @@ body {
   color: rgb(50, 50, 50);
 }
 
-h1,
-h2 {
+hr {
   margin: 1rem 0;
-}
-
-.container {
-  padding: 1rem;
-}
-
-label {
-  display: block;
-}
-
-p {
-  margin: 1rem 0;
-}
-
-form {
-  width: 50%;
-}
-
-form input {
-  width: 100%;
-  margin-bottom: 1rem;
-}
-
-form div {
-  width: 100%;
-}
-
-form div:last-child {
-  text-align: right;
 }

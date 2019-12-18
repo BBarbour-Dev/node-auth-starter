@@ -9,7 +9,7 @@ module.exports = [
     .withMessage("New password must be at least 6 characters in length."),
   check("passwordTwo").custom((value, { req }) => {
     if (value !== req.body.password) {
-      throw new Error("Confirm password must match new password.");
+      throw new Error("Confirm new password must match new password.");
     }
     return true;
   })
